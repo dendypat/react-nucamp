@@ -23,7 +23,7 @@ function RenderCampsite({ campsite }) {
     </div>
   );
 }
-function RenderComments({ comments }) {
+function RenderComments({ comments, addComment, campsiteId }) {
   if (comments) {
     return (<div className="col-md-5 m-1">
       <h4>Comments</h4>
@@ -35,7 +35,7 @@ function RenderComments({ comments }) {
           </div>
         );
       })}
-      <CommentForm />
+      <CommentForm  campsiteId={campsiteId} addComment={addComment}/>
     </div>
     )
   }
@@ -56,8 +56,11 @@ function CampsiteInfo(props) {
           </div>
         </div>
         <div className="row">
-          <RenderCampsite campsite={props.campsite} />
-          <RenderComments comments={props.comments} />
+          <RenderComments
+            comments={props.comments}
+            addComment={props.addComment}
+            campsiteId={props.campsite.id}
+          />
         </div>
       </div>
     );
@@ -90,10 +93,10 @@ class CommentForm extends Component {
     });
   }
 
-     handleSubmit(values) {
-        console.log("Current state is: " + JSON.stringify(values));
-           alert("Current state is: " + JSON.stringify(values));
-     }
+  handleSubmit(values) {
+    this.toggleModal();
+    this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text)
+  }
 
   render() {
 
@@ -126,19 +129,19 @@ class CommentForm extends Component {
                       required,
                       minLength: minLength(2),
                       maxLength: maxLength(15)
-                  }}
-              />
-              <Errors
-                  className="text-danger"
-                  model=".author"
-                  show="touched"
-                  component="div"
-                  messages={{
+                    }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".author"
+                    show="touched"
+                    component="div"
+                    messages={{
                       required: 'Required',
                       minLength: 'Must be at least 2 characters',
                       maxLength: 'Must be 15 characters or less'
-                  }}
-              />
+                    }}
+                  />
                 </Col>
               </Row>
               <Row className="form-group">
