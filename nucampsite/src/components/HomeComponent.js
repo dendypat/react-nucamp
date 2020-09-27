@@ -2,9 +2,10 @@ import React from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap'
 
 function RenderCard(item) {
+  console.log(item)
   return (
     <Card>
-      <CardImg src={item.item.image} alt={item.name} />
+      <CardImg src={item.item.image} alt={item.item.name} />
       <CardBody>
         <CardTitle>{item.item.name}</CardTitle>
         <CardText>{item.item.description}</CardText>
@@ -18,7 +19,7 @@ function Home(props) {
     <div className="container">
       <div className="row">
         <div className="col-md m-1">
-          <RenderCard item={props.campsites} />
+          <RenderCard item={props.campsite} />
         </div>
         <div className="col-md m-1">
           <RenderCard item={props.promotion} />
